@@ -11,7 +11,7 @@ router.register(r'categories', CategoryViewSet)
 
 app_name='blog_module'
 urlpatterns = [
-    path('',views.indexApiView.as_view(),name='index'),
+    # path('',views.indexApiView.as_view(),name='index'),
     path('api/', include(router.urls)),
 ]
 
