@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -30,8 +31,10 @@ function Posts() {
       <div className="posts-container">
         {posts.map(post => (
           <div key={post.id} className="post-card">
-            <h2>{post.title}</h2>
-            <p>{post.content}</p>
+            <h2>
+              <Link to={`/posts/${post.id}`}>{post.title}</Link>
+            </h2>
+            <p>{post.content.substring(0, 100)}...</p>
             <div className="post-info">
               <p>Author: {post.author ? post.author : 'Anonymous'}</p>
               <p>Created: {new Date(post.created_at).toLocaleDateString()}</p>

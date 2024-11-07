@@ -1,7 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import PostViewSet, CommentViewSet, CategoryViewSet
-from . import views
+from .views import PostViewSet, CommentViewSet, CategoryViewSet,indexApiView,post_detail
 
 
 router = DefaultRouter()
@@ -9,11 +8,18 @@ router.register(r'posts', PostViewSet)
 router.register(r'comments', CommentViewSet)
 router.register(r'categories', CategoryViewSet)
 
-app_name='blog_module'
+# app_name='blog_module'
 urlpatterns = [
-    # path('',views.indexApiView.as_view(),name='index'),
+    path('',indexApiView.as_view(),name='index'),
     path('api/', include(router.urls)),
+    path('api/posts/<int:pk>/detail/', post_detail, name='post_detail'),
 ]
+
+
+
+
+
+
 
 # app_name='blog_module'
 # urlpatterns = [
