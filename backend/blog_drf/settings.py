@@ -25,14 +25,45 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # local apps
     'blog_module.apps.BlogModuleConfig',
+
     # third party apps
     'rest_framework',
-    'rest_framework_simplejwt',
+    'rest_framework.authtoken',
+    
+    # authentication
+    'dj_rest_auth',               # Required for dj-rest-auth
+    'dj_rest_auth.registration',  # Required for registration
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    
+    # another third party packages
     'corsheaders',
+
+    # JWT Token
+    # 'rest_framework_simplejwt',
     
 ]
+
+# INSTALLED_APPS = (
+#     ...,
+#     'rest_framework',
+#     'rest_framework.authtoken',
+#     'dj_rest_auth'
+#     ...,
+#     'django.contrib.sites',
+#     'allauth',
+#     'allauth.account',
+#     'dj_rest_auth.registration',
+#     ...,
+#     'allauth.socialaccount',
+#     'allauth.socialaccount.providers.facebook',
+#     'allauth.socialaccount.providers.twitter',
+
+# )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -43,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'blog_drf.urls'
@@ -118,16 +150,35 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Restframework Configs for JWT Token
+# # REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ),
+#     # 'DEFAULT_PERMISSION_CLASSES': (
+#     #     'rest_framework.permissions.IsAuthenticated',
+#     # ),
+# }
 
-# restframework configs
+
+# Restframework Configs for Dj-Rest-Auth +AllAuth
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # Default
+    'allauth.account.auth_backends.AuthenticationBackend',  # Allauth
+)
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        # 'dj_rest_auth.authentication.AllAuthJWTAuthentication',  # If using JWT
     ),
     # 'DEFAULT_PERMISSION_CLASSES': (
     #     'rest_framework.permissions.IsAuthenticated',
     # ),
 }
+SITE_ID = 1
+
+AUTH_USER_MODEL = 'auth.User'  # Default user model
 
 # cors server config
 CORS_ALLOWED_ORIGINS = [
